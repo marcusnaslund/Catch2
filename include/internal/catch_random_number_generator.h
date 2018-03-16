@@ -8,28 +8,22 @@
 #define TWOBLUECUBES_CATCH_RANDOM_NUMBER_GENERATOR_H_INCLUDED
 
 #include <algorithm>
+#include <random>
 
 namespace Catch {
-
-    struct IConfig;
-
-    void seedRng( IConfig const& config );
 
     unsigned int rngSeed();
 
     struct RandomNumberGenerator {
-        using result_type = unsigned int;
-
-        static constexpr result_type (min)() { return 0; }
-        static constexpr result_type (max)() { return 1000000; }
-
-        result_type operator()( result_type n ) const;
-        result_type operator()() const;
+        static std::mt19937& get() {
+            static std::mt19937 generator(rngSeed() ? rngSeed() : std::random_device()());
+            return generator;
+        }
 
         template<typename V>
         static void shuffle( V& vector ) {
             RandomNumberGenerator rng;
-            std::shuffle( vector.begin(), vector.end(), rng );
+            std::shuffle( vector.begin(), vector.end(), rng.get() );
         }
     };
 
