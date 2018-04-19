@@ -29,7 +29,7 @@ def generate(v):
 
     globals = {
         'includeImpl' : True,
-        'ifdefs'      :  0,
+        'ifdefs'      : 0,
         'implIfDefs'  : -1
     }
 
@@ -82,7 +82,7 @@ def generate(v):
             if m:
                 header = m.group(1)
                 headerPath, sep, headerFile = header.rpartition( "/" )
-                if not headerFile in seenHeaders:
+                if headerFile not in seenHeaders:
                     if headerFile != "tbc_text_format.h" and headerFile != "clara.h":
                         seenHeaders.add( headerFile )
                     if headerPath == "internal" and path.endswith("internal/"):
@@ -122,7 +122,7 @@ def generate(v):
 
     write( "#endif // TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED\n\n" )
     out.close()
-    print ("Generated single include for Catch v{0}\n".format( v.getVersionString() ) )
+    print("Generated single include for Catch v{0}\n".format( v.getVersionString() ) )
 
 
 if __name__ == '__main__':

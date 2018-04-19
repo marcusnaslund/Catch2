@@ -13,12 +13,12 @@ outfilename = os.path.join( rootPath, "include", "external", "clara.hpp" )
 
 # Mapping of pre-processor identifiers
 idMap = {
-   "CLARA_HPP_INCLUDED": "CATCH_CLARA_HPP_INCLUDED",
+    "CLARA_HPP_INCLUDED": "CATCH_CLARA_HPP_INCLUDED",
     "CLARA_CONFIG_CONSOLE_WIDTH": "CATCH_CLARA_CONFIG_CONSOLE_WIDTH",
     "CLARA_TEXTFLOW_HPP_INCLUDED": "CATCH_CLARA_TEXTFLOW_HPP_INCLUDED",
     "CLARA_TEXTFLOW_CONFIG_CONSOLE_WIDTH": "CATCH_CLARA_TEXTFLOW_CONFIG_CONSOLE_WIDTH",
     "CLARA_PLATFORM_WINDOWS": "CATCH_PLATFORM_WINDOWS"
-    }
+}
 
 # outer namespace to add
 outerNamespace = { "clara": ("Catch", "clara") }

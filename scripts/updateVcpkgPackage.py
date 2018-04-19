@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 
-import io, os, re, sys, subprocess
+import io
+import os
+import re
+import sys
+import subprocess
 import hashlib
 
 from scriptCommon import catchPath
@@ -88,8 +92,8 @@ def git_push(path_to_repo):
     # Work with git
     # Make sure we branch off master
     subprocess.call('git checkout master', shell=True)
-    
-    # Update repo to current master, so we don't work off old version of the portfile 
+
+    # Update repo to current master, so we don't work off old version of the portfile
     subprocess.call('git pull Microsoft master', shell=True)
     subprocess.call('git push', shell=True)
 

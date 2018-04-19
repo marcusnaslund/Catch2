@@ -24,7 +24,7 @@ issues = {}
 
 def getIssueTitle( issueNumber ):
     try:
-        s = urllib2.urlopen("https://api.github.com/repos/philsquared/catch/issues/" + issueNumber ).read()        
+        s = urllib2.urlopen("https://api.github.com/repos/philsquared/catch/issues/" + issueNumber ).read()
     except:
         return "#HTTP Error#"
 

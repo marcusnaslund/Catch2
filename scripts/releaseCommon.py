@@ -1,4 +1,4 @@
-from  __future__ import  print_function
+from __future__ import print_function
 
 import os
 import sys
@@ -9,8 +9,7 @@ from scriptCommon import catchPath
 
 versionParser = re.compile( r'(\s*static\sVersion\sversion)\s*\(\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*\"(.*)\"\s*,\s*(.*)\s*\).*' )
 rootPath = os.path.join( catchPath, 'include/' )
-versionPath = os.path.join( rootPath, "internal/catch_version.cpp" )
-definePath = os.path.join(rootPath, 'catch.hpp')
+definePath = os.path.join( rootPath, "internal/catch_version.cpp" )
 readmePath = os.path.join( catchPath, "README.md" )
 conanPath = os.path.join(catchPath, 'conanfile.py')
 conanTestPath = os.path.join(catchPath, 'test_package', 'conanfile.py')
@@ -70,6 +69,7 @@ class Version:
         for line in f:
             m = versionParser.match( line )
             if m:
+                # TODO only update branchname, buildnumber
                 lines.append( '{0}( {1}, {2}, {3}, "{4}", {5} );'.format( self.variableDecl, self.majorVersion, self.minorVersion, self.patchNumber, self.branchName, self.buildNumber ) )
             else:
                 lines.append( line.rstrip() )

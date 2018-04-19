@@ -2,7 +2,13 @@
 
 from __future__ import print_function
 
-import time, subprocess, sys, os, shutil, glob, random
+import time
+import subprocess
+import sys
+import os
+import shutil
+import glob
+import random
 import argparse
 
 def median(lst):
@@ -111,10 +117,9 @@ parser = argparse.ArgumentParser(description='Benchmarks Catch\'s compile times 
 parser.add_argument('benchmark_kind', nargs='?', default='all', choices=options, help='What kind of benchmark to run, default: all')
 
 # Args to allow changing header/compiler
-parser.add_argument('-I', '--catch-header', default='catch.hpp', help = 'Path to catch.hpp, default: catch.hpp')
-parser.add_argument('-c', '--compiler', default='g++', help = 'Compiler to use, default: g++')
-
-parser.add_argument('-f', '--flags', help = 'Flags to be passed to the compiler. Pass as "," separated list')
+parser.add_argument('-I', '--catch-header', default='catch.hpp', help='Path to catch.hpp, default: catch.hpp')
+parser.add_argument('-c', '--compiler', default='g++', help='Compiler to use, default: g++')
+parser.add_argument('-f', '--flags', help='Flags to be passed to the compiler. Pass as "," separated list')
 
 # Allow creating files only, without running the whole thing
 parser.add_argument('-g', '--generate-files', action='store_true', help='Generate test files and quit')

@@ -11,7 +11,7 @@
 # https://github.com/rasbt/markdown-toclify
 #
 
-from  __future__  import print_function
+from __future__ import print_function
 from scriptCommon import catchPath
 
 import argparse
@@ -164,7 +164,7 @@ def tagAndCollect(lines, id_tag=True, back_links=False, exclude_h=None):
             if not exclude_h or not dashified[-1] in exclude_h:
                 if id_tag:
                     id_tag = '<a class="mk-toclify" id="%s"></a>'\
-                              % (dashified[1])
+                        % (dashified[1])
                     out_contents.append(id_tag)
                 headlines.append(dashified)
 
@@ -265,16 +265,16 @@ def outputMarkdown(markdown_cont, output_file):
             out.write(markdown_cont)
 
 def markdownToclify(
-    input_file,
-    output_file=None,
-    min_toc_len=2,
-    github=False,
-    back_to_top=False,
-    nolink=False,
-    no_toc_header=False,
-    spacer=0,
-    placeholder=None,
-    exclude_h=None):
+        input_file,
+        output_file=None,
+        min_toc_len=2,
+        github=False,
+        back_to_top=False,
+        nolink=False,
+        no_toc_header=False,
+        spacer=0,
+        placeholder=None,
+        exclude_h=None):
     """ Function to add table of contents to markdown files.
 
     Parameters
