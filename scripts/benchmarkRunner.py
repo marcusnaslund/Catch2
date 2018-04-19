@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
 
-import subprocess, os, sys
+import subprocess
+import os
+import sys
 import xml.etree.ElementTree as ET
 from collections import defaultdict
 from statistics import median, stdev
 from datetime import datetime
 
+
 def get_commit_hash():
     res = subprocess.run('git rev-parse HEAD'.split(), check=True, stdout=subprocess.PIPE, universal_newlines=True)
     return res.stdout.strip()
+
 
 if len(sys.argv) < 2:
     print('Usage: {} benchmark-binary'.format(sys.argv[0]))
@@ -32,6 +36,7 @@ def parse_file(file):
 
     tree = ET.parse(file)
     recursive_search(tree.getroot())
+
 
 def run_benchmarks(binary):
     call = [binary] + '-d yes -r xml -o'.split()

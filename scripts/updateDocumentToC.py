@@ -11,7 +11,7 @@
 # https://github.com/rasbt/markdown-toclify
 #
 
-from  __future__  import print_function
+from __future__ import print_function
 from scriptCommon import catchPath
 
 import argparse
@@ -24,8 +24,8 @@ import sys
 
 minTocEntries = 4
 
-headingExcludeDefault = [1,3,4,5]  # use level 2 headers for at default
-headingExcludeRelease = [2,3,4,5]  # use level 1 headers for release-notes.md
+headingExcludeDefault = [1, 3, 4, 5]  # use level 2 headers for at default
+headingExcludeRelease = [2, 3, 4, 5]  # use level 1 headers for release-notes.md
 
 documentsDefault = os.path.join(os.path.relpath(catchPath), 'docs/*.md')
 releaseNotesName = 'release-notes.md'
@@ -38,12 +38,14 @@ contentLineNdx = contentLineNo - 1
 
 VALIDS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-&'
 
+
 def readLines(in_file):
     """Returns a list of lines from a input markdown file."""
 
     with open(in_file, 'r') as inf:
         in_contents = inf.read().split('\n')
     return in_contents
+
 
 def removeLines(lines, remove=('[[back to top]', '<a class="mk-toclify"')):
     """Removes existing [back to top] links and <a id> tags."""
@@ -58,9 +60,10 @@ def removeLines(lines, remove=('[[back to top]', '<a class="mk-toclify"')):
         out.append(l)
     return out
 
+
 def removeToC(lines):
     """Removes existing table of contents starting at index contentLineNdx."""
-    if not lines[contentLineNdx ].startswith(contentTitle):
+    if not lines[contentLineNdx].startswith(contentTitle):
         return lines[:]
 
     result_top = lines[:contentLineNdx]
@@ -72,6 +75,7 @@ def removeToC(lines):
     result_bottom = lines[pos + 1:]
 
     return result_top + result_bottom
+
 
 def dashifyHeadline(line):
     """
@@ -104,6 +108,7 @@ def dashifyHeadline(line):
     dashified = dashified.replace('-&-', '--')
 
     return [stripped_wspace, dashified, level]
+
 
 def tagAndCollect(lines, id_tag=True, back_links=False, exclude_h=None):
     """
@@ -164,7 +169,7 @@ def tagAndCollect(lines, id_tag=True, back_links=False, exclude_h=None):
             if not exclude_h or not dashified[-1] in exclude_h:
                 if id_tag:
                     id_tag = '<a class="mk-toclify" id="%s"></a>'\
-                              % (dashified[1])
+                        % (dashified[1])
                     out_contents.append(id_tag)
                 headlines.append(dashified)
 
@@ -172,6 +177,7 @@ def tagAndCollect(lines, id_tag=True, back_links=False, exclude_h=None):
         if back_links and saw_headline:
             out_contents.append('[[back to top](#table-of-contents)]')
     return out_contents, headlines
+
 
 def positioningHeadlines(headlines):
     """
@@ -186,6 +192,7 @@ def positioningHeadlines(headlines):
         for row in headlines:
             row[-1] -= 1
     return headlines
+
 
 def createToc(headlines, hyperlink=True, top_link=False, no_toc_header=False):
     """
@@ -216,10 +223,11 @@ def createToc(headlines, hyperlink=True, top_link=False, no_toc_header=False):
         if hyperlink:
             item = '[%s](#%s)' % (line[0], line[1])
         else:
-            item = '%s- %s' % ((line[2]-1)*'    ', line[0])
+            item = '%s- %s' % ((line[2] - 1) * '    ', line[0])
         processed.append(item + '<br>')
     processed.append('\n')
     return processed
+
 
 def buildMarkdown(toc_headlines, body, spacer=0, placeholder=None):
     """
@@ -249,11 +257,12 @@ def buildMarkdown(toc_headlines, body, spacer=0, placeholder=None):
         body_markdown = "\n".join(body)
         markdown = body_markdown.replace(placeholder, toc_markdown)
     else:
-        body_markdown_p1 = "\n".join(body[:contentLineNdx ]) + '\n'
-        body_markdown_p2 = "\n".join(body[ contentLineNdx:])
+        body_markdown_p1 = "\n".join(body[:contentLineNdx]) + '\n'
+        body_markdown_p2 = "\n".join(body[contentLineNdx:])
         markdown = body_markdown_p1 + toc_markdown + body_markdown_p2
 
     return markdown
+
 
 def outputMarkdown(markdown_cont, output_file):
     """
@@ -264,17 +273,18 @@ def outputMarkdown(markdown_cont, output_file):
         with open(output_file, 'w') as out:
             out.write(markdown_cont)
 
+
 def markdownToclify(
-    input_file,
-    output_file=None,
-    min_toc_len=2,
-    github=False,
-    back_to_top=False,
-    nolink=False,
-    no_toc_header=False,
-    spacer=0,
-    placeholder=None,
-    exclude_h=None):
+        input_file,
+        output_file=None,
+        min_toc_len=2,
+        github=False,
+        back_to_top=False,
+        nolink=False,
+        no_toc_header=False,
+        spacer=0,
+        placeholder=None,
+        exclude_h=None):
     """ Function to add table of contents to markdown files.
 
     Parameters
@@ -351,16 +361,19 @@ def markdownToclify(
     if output_file:
         outputMarkdown(cont, output_file)
 
+
 def isReleaseNotes(f):
     return os.path.basename(f) == releaseNotesName
+
 
 def excludeHeadingsFor(f):
     return headingExcludeRelease if isReleaseNotes(f) else headingExcludeDefault
 
+
 def updateSingleDocumentToC(input_file, min_toc_len, verbose=False):
     """Add or update table of contents in specified file. Return 1 if file changed, 0 otherwise."""
-    if verbose :
-        print( 'file: {}'.format(input_file))
+    if verbose:
+        print('file: {}'.format(input_file))
 
     output_file = input_file + '.tmp'
 
@@ -385,6 +398,7 @@ def updateSingleDocumentToC(input_file, min_toc_len, verbose=False):
 
     return 1
 
+
 def updateDocumentToC(paths, min_toc_len, verbose):
     """Add or update table of contents to specified paths. Return number of changed files"""
     n = 0
@@ -393,6 +407,7 @@ def updateDocumentToC(paths, min_toc_len, verbose):
             if os.path.isfile(f):
                 n = n + updateSingleDocumentToC(input_file=f, min_toc_len=min_toc_len, verbose=verbose)
     return n
+
 
 def updateDocumentToCMain():
     """Add or update table of contents to specified paths."""
@@ -436,9 +451,10 @@ def updateDocumentToCMain():
     changedFiles = updateDocumentToC(paths=paths, min_toc_len=args.minTocEntries, verbose=args.verbose)
 
     if changedFiles > 0:
-        print( "Processed table of contents in " + str(changedFiles) + " file(s)" )
+        print("Processed table of contents in " + str(changedFiles) + " file(s)")
     else:
-        print( "No table of contents added or updated" )
+        print("No table of contents added or updated")
+
 
 if __name__ == '__main__':
     updateDocumentToCMain()

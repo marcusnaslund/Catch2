@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 
-import io, os, re, sys, subprocess
+import io
+import os
+import re
+import sys
+import subprocess
 import hashlib
 
 from scriptCommon import catchPath
@@ -10,8 +14,10 @@ print(catchPath)
 
 default_path = '../vcpkg/ports/catch2/'
 
+
 def adjusted_path(path):
     return os.path.join(catchPath, path)
+
 
 def get_hash(path):
     BUFF_SIZE = 65536
@@ -29,6 +35,7 @@ def get_hash(path):
                 sha512.update(data.encode('utf-8'))
     return sha512.hexdigest()
 
+
 def update_control(path):
     v = Version()
     ver_string = v.getVersionString()
@@ -44,6 +51,7 @@ def update_control(path):
             if 'Version: ' in line:
                 line = 'Version: {}\n'.format(v.getVersionString())
             f.write(line)
+
 
 def update_portfile(path, header_hash, licence_hash):
     print('Updating portfile')
@@ -88,8 +96,8 @@ def git_push(path_to_repo):
     # Work with git
     # Make sure we branch off master
     subprocess.call('git checkout master', shell=True)
-    
-    # Update repo to current master, so we don't work off old version of the portfile 
+
+    # Update repo to current master, so we don't work off old version of the portfile
     subprocess.call('git pull Microsoft master', shell=True)
     subprocess.call('git push', shell=True)
 
@@ -101,6 +109,7 @@ def git_push(path_to_repo):
     subprocess.call('git commit -m "Update Catch to {}"'.format(ver_string), shell=True)
     # Don't push, so author can review
     print('Changes were commited to the vcpkg fork. Please check, push and open PR.')
+
 
 header_hash = get_hash(adjusted_path('single_include/catch.hpp'))
 licence_hash = get_hash(adjusted_path('LICENSE.txt'))

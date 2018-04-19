@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from  __future__ import print_function
+from __future__ import print_function
 
 import os
 import sys
@@ -72,12 +72,14 @@ else:
 
 overallResult = 0
 
+
 def openFile(file, mode):
     try:
         return open(file, mode, encoding='utf-8', errors='surrogateescape')
     except TypeError:
         import io
         return io.open(file, mode, encoding='utf-8', errors='surrogateescape')
+
 
 def diffFiles(fileA, fileB):
     with openFile(fileA, 'r') as file:
@@ -98,7 +100,6 @@ def filterLine(line):
         line = line.replace(catchPath + os.sep, '')
         # go from \ in windows paths to /
         line = line.replace('\\', '/')
-
 
     # strip source line numbers
     m = filelocParser.match(line)
@@ -177,7 +178,7 @@ print("Running approvals against executable:")
 print("  " + cmdPath)
 
 
-### Keep default reporters here
+# Keep default reporters here
 # Standard console reporter
 approve("console.std", ["~[!nonportable]~[!benchmark]~[approvals]", "--order", "lex"])
 # console reporter, include passes, warn about No Assertions

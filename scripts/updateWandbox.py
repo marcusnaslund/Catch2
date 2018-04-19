@@ -6,11 +6,13 @@ import urllib2
 
 from scriptCommon import catchPath
 
+
 def upload(options):
     request = urllib2.Request('http://melpon.org/wandbox/api/compile.json')
     request.add_header('Content-Type', 'application/json')
     response = urllib2.urlopen(request, json.dumps(options))
     return json.loads(response.read())
+
 
 main_file = '''
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
@@ -27,6 +29,7 @@ TEST_CASE( "Factorials are computed", "[factorial]" ) {
     REQUIRE( Factorial(10) == 3628800 );
 }
 '''
+
 
 def uploadFiles():
     response = upload({

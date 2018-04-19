@@ -2,8 +2,15 @@
 
 from __future__ import print_function
 
-import time, subprocess, sys, os, shutil, glob, random
+import time
+import subprocess
+import sys
+import os
+import shutil
+import glob
+import random
 import argparse
+
 
 def median(lst):
     lst = sorted(lst)
@@ -13,8 +20,10 @@ def median(lst):
     else:
         return (lst[mid - 1] + lst[mid]) / 2.0
 
+
 def mean(lst):
     return float(sum(lst)) / max(len(lst), 1)
+
 
 compiler_path = ''
 flags = []
@@ -40,23 +49,28 @@ checks = [
     'a < b', 'b < c', 'c < d', 'd < e', 'a >= a', 'd >= b',
 ]
 
+
 def create_temp_dir():
     if os.path.exists(dir_name):
         shutil.rmtree(dir_name)
     os.mkdir(dir_name)
 
+
 def copy_catch(path_to_catch):
     shutil.copy(path_to_catch, dir_name)
+
 
 def create_catch_main():
     with open(main_name, 'w') as f:
         f.write(main_file)
+
 
 def compile_main():
     start_t = time.time()
     subprocess.check_call([compiler_path, main_name, '-c'] + flags)
     end_t = time.time()
     return end_t - start_t
+
 
 def compile_files():
     cpp_files = glob.glob('tests*.cpp')
@@ -65,6 +79,7 @@ def compile_files():
     end_t = time.time()
     return end_t - start_t
 
+
 def link_files():
     obj_files = glob.glob('*.o')
     start_t = time.time()
@@ -72,13 +87,16 @@ def link_files():
     end_t = time.time()
     return end_t - start_t
 
+
 def benchmark(func):
     results = [func() for i in range(10)]
     return mean(results), median(results)
 
+
 def char_range(start, end):
     for c in range(ord(start), ord(end)):
         yield chr(c)
+
 
 def generate_sections(fd):
     for i in range(sections_in_file):
@@ -111,10 +129,10 @@ parser = argparse.ArgumentParser(description='Benchmarks Catch\'s compile times 
 parser.add_argument('benchmark_kind', nargs='?', default='all', choices=options, help='What kind of benchmark to run, default: all')
 
 # Args to allow changing header/compiler
-parser.add_argument('-I', '--catch-header', default='catch.hpp', help = 'Path to catch.hpp, default: catch.hpp')
-parser.add_argument('-c', '--compiler', default='g++', help = 'Compiler to use, default: g++')
+parser.add_argument('-I', '--catch-header', default='catch.hpp', help='Path to catch.hpp, default: catch.hpp')
+parser.add_argument('-c', '--compiler', default='g++', help='Compiler to use, default: g++')
 
-parser.add_argument('-f', '--flags', help = 'Flags to be passed to the compiler. Pass as "," separated list')
+parser.add_argument('-f', '--flags', help='Flags to be passed to the compiler. Pass as "," separated list')
 
 # Allow creating files only, without running the whole thing
 parser.add_argument('-g', '--generate-files', action='store_true', help='Generate test files and quit')
